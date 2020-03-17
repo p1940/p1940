@@ -9,7 +9,7 @@ defense (PAD) measures. The scope of authentication includes primary
 authentication, second-factor authentication (2FA), step-up
 authentication (SUA), and multi-factor authentication (MFA).
 
-![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/ieee2410_nominal.txt?cache=no)
+![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/ieee2410_nominal.plantuml?cache=no)
 
 Create a collection of standard profiles that define integration of
 authentication services with ISO 8583 used for financial transactions

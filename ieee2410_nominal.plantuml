@@ -1,0 +1,20 @@
+@startuml
+autonumber
+participant "Vendor\nMobile App" as MobileApp
+participant "TxP Server" as TxP
+participant "IEEE 2410\nMobile SDK" as SDK
+participant "IEEE 2410\nServer" as Server
+
+TxP -> Server : **AuthenticationRequest**
+note right : VTR
+Server -> TxP : **AuthenticationRequest** returns sessionId (& required biometries?)
+TxP --> MobileApp : sessionId for Auth
+MobileApp --> SDK : Vendor Authentication Initiated
+SDK -> Server : **RegisterSession**
+Server -> SDK : **RegisterSession** returns biometries to check (?)
+SDK -> SDK : Perform biometric\nauthentication
+SDK -> Server : **AuthenticationResponse**
+Server -> SDK : **AuthenticationResponse** returns issued identity token
+note right : VOT
+SDK --> TxP : Authentication response & identity token
+@enduml

@@ -1,9 +1,15 @@
 @startuml
-A -> MITM : {Na,A}PK{B}
-note over A: IniRunningAB is true
-note over MITM: message from A discarded
-MITM -> B : {B,A}PK{B}
-B -> MITM : {B,Nb}PK{A}
-note over B: ResRunningAB is true
-note over MITM: message from B discarded
+participant "TxP Server" as TxP
+participant "Veridium SDK" as VeridiumSDK
+participant "Veridium\nServer" as VeridiumServer
+
+TxP -> VeridiumServer : AuthRequest for SDK
+VeridiumServer -> TxP : AuthResponse for SDK
+TxP -> VeridiumSDK : Authentication Request
+VeridiumSDK -> VeridiumServer : Start authentication (profile)
+VeridiumServer -> VeridiumSDK : biometries to check
+VeridiumSDK -> VeridiumSDK
+note over VeridiumSDK: Perform biometric\nauthentication
+VeridiumSDK -> VeridiumServer : Authentication Response
+VeridiumSDK -> TxP : Authentication response & identity token
 @enduml

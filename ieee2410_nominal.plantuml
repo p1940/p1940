@@ -1,0 +1,9 @@
+@startuml
+A -> MITM : {Na,A}PK{B}
+note over A: IniRunningAB is true
+note over MITM: message from A discarded
+MITM -> B : {B,A}PK{B}
+B -> MITM : {B,Nb}PK{A}
+note over B: ResRunningAB is true
+note over MITM: message from B discarded
+@enduml

@@ -122,10 +122,33 @@ To do this, an RP must know the types of authentication methods available and th
 
 Lastly, once an authentication has occurred, the IdP returns the result to the RP along with a vector of trust (VoT) component-value string declaring the specific methods and policies used.
 
-The IEEE P1940 example ATM transaction involves a number of actors to handle aspects of the transaction. This architecture diagram shows an ATM network and a mobile banking app communicating with bank backend servers to carry out a transaction. 
+The IEEE P1940 example ATM transaction involves a number of actors to handle aspects of the transaction. This architecture diagram shows the actors in an ATM network a mobile banking app communicating with bank backend servers to carry out a transaction. 
 
+![Image of ATM network](https://github.com/p1940/p1940/wardrosenberry/p1940/VoTArchitecture.png)
 
+The architecture diagram has these elements. 
 
+ * **ATM Terminal with Plugin**: Standard ATM hardware terminal with software support for mobile flow.
+
+ * **Acquiring Switch**: Connects multiple ATM systems to a payment network used by banks to handle ATM transactions using the ISO8583 protocol.
+
+ * **Mobile App**: A banking app for performing mobile banking operations. The app runs on a mobile device such as a smartphone. The app Includes an embedded IdP SDK.
+
+ * **IdP SDK**: Handles mobile multi factor authentication operations in response to requests from the IdP server located at the bank.
+
+ * **TxP Server**: Bank back end transaction processing server that handles deposit and withdrawal functions according to banking rules.
+
+ * **HCE (Host Card Emulator)**: Emulates a user’s bank debit or credit card to validate a bank card chip used at a remote ATM or POS terminal.
+
+ * **Issuing authorization system**: Holds bank customer parameters such as account number, card identifiers, and cryptographic keys used for transaction authorization.
+
+ * **IdP Server**: An IEEE P1940-compliant service that handles multi-factor authentication in response to user authentication requests from the bank TxP server. 
+
+This series of transaction diagrams shows a sample authentication scenario illustrating the use of VtRs and VoTs in an ATM transaction. 
+
+Figure 2 shows the initial transaction phase where the user stages the transaction (a cash withdrawal from the ATM). These sequences are outside the scope of IEEE P1940.
+
+![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/wardrosenberry/p1940/master/ieee2410nominal.plantuml?cache=no)
 
 
 Create a collection of standard profiles that define integration of
@@ -139,7 +162,7 @@ defense (PAD) measures. The scope of authentication includes primary
 authentication, second-factor authentication (2FA), step-up
 authentication (SUA), and multi-factor authentication (MFA).
 
-![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/ieee2410nominal.plantuml?cache=no)
+![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/p1940StagingRequest.plantuml?cache=no)
 
 Create a collection of standard profiles that define integration of
 authentication services with ISO 8583 used for financial transactions

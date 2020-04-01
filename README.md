@@ -148,8 +148,7 @@ This series of transaction diagrams shows a sample authentication scenario illus
 
 Figure 2 shows the initial transaction phase where the user stages the transaction (a cash withdrawal from the ATM). These sequences are outside the scope of IEEE P1940.
 
-![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/wardrosenberry/p1940/master/ieee2410nominal.plantuml?cache=no)
-
+![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/p1940StagingRequest.plantuml?cache=no) 
 
 Create a collection of standard profiles that define integration of
 authentication services with ISO 8583 used for financial transactions
@@ -162,7 +161,7 @@ defense (PAD) measures. The scope of authentication includes primary
 authentication, second-factor authentication (2FA), step-up
 authentication (SUA), and multi-factor authentication (MFA).
 
-![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/p1940StagingRequest.plantuml?cache=no)
+![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/ieee2410nominal.plantuml?cache=no)
 
 Create a collection of standard profiles that define integration of
 authentication services with ISO 8583 used for financial transactions

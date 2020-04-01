@@ -43,7 +43,7 @@ The Identity Provider can be polled or notified by the Relying Party regarding a
 The Identity Provider and associated mobile SDK are responsible for security of the user’s privately identifiable information (PII).  No PII is shared to the Relying Party - only the authentication result (true or false) and MAY contain a Vector of Trust (VOT).  Any additional information is outside the scope of this profile such as attribute values (i.e., name, address, DoB, etc.) obtained via other IDP APIs.
 
 ### 2.1.5 Security Considerations
-All transactions MUST be protected in transit by TLS as described in BCP195.  Authentication Servers SHOULD take into account device postures when dealing with native apps if possible. Device postures include characteristics such as a user's lock screen setting, or if the app has 'root access' (meaning the device OS may be compromised to gain additional privileges not intended by the vendor), or if there is a device attestation for the app for its validity. Specific policies or capabilities are outside the scope of this specification.  All clients MUST conform to applicable recommendations found in the Security Considerations sections of [RFC6749].
+All transactions MUST be protected in transit by TLS as described in BCP195.  Authentication Servers SHOULD take into account device postures when dealing with native apps if possible. Device postures include characteristics such as a user's lock screen setting, or if the app has 'root access' (meaning the device OS may be compromised to gain additional privileges not intended by the vendor), or if there is a device attestation for the app for its validity. Specific policies or capabilities are outside the scope of this specification.  All clients MUST conform to applicable recommendations found in the Security Considerations sections of [[RFC6749](https://tools.ietf.org/html/rfc6749)].
 
 ### 2.1.6 Threat Model
 IEEE 2410 determines the user and device enrollment process mitigates man-in-the-middle (MiTM) attacks that may be used to intercept calls from the mobile device to the relying party and the mobile device to the identity provider.  Although protected by TLS, we still recommend the association of IDP and RP within a trusted network and the IDP-RP connections MUST use client certificates (called friend certificates) as required by IEEE 2410.
@@ -124,7 +124,7 @@ Lastly, once an authentication has occurred, the IdP returns the result to the R
 
 The IEEE P1940 example ATM transaction involves a number of actors to handle aspects of the transaction. This architecture diagram shows the actors in an ATM network a mobile banking app communicating with bank backend servers to carry out a transaction. 
 
-![Image of ATM network](https://github.com/p1940/p1940/wardrosenberry/p1940/VoTArchitecture.png)
+![Image of ATM network](https://github.com/p1040/p1940/wardrosenberry/p1940/VoTArchitecture.png)
 
 The architecture diagram has these elements. 
 
@@ -148,7 +148,7 @@ This series of transaction diagrams shows a sample authentication scenario illus
 
 Figure 2 shows the initial transaction phase where the user stages the transaction (a cash withdrawal from the ATM). These sequences are outside the scope of IEEE P1940.
 
-![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/p1940StagingRequest.plantuml?cache=no) 
+![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/p1940StagingRequest?cache=no) 
 
 Create a collection of standard profiles that define integration of
 authentication services with ISO 8583 used for financial transactions

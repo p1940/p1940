@@ -150,26 +150,63 @@ Figure 2 shows the initial transaction phase where the user stages the transacti
 
 ![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/p1940StagingRequest?cache=no) 
 
-Create a collection of standard profiles that define integration of
-authentication services with ISO 8583 used for financial transactions
-(e.g., point-of-sale (POS), automated teller machine (ATM) cash
-withdrawal transactions, etc.). Such services include biometric
-authentication (as defined by IEEE Std. 2410), PIN-based, Fast
-Identity Online (FIDO), and One-Time Password (OTP) and Time-based OTP
-(TOTP) authentication methods including risk and presentation attack
-defense (PAD) measures. The scope of authentication includes primary
-authentication, second-factor authentication (2FA), step-up
-authentication (SUA), and multi-factor authentication (MFA).
+This diagram illustrates authentication sequences where the TxP knows the amount of the transaction and issues an authentication request to the IdP. These sequences are in the scope of IEEE P1940.
+
+The embedded IdP SDK is shown near to the IdP server to clarify these interactions
 
 ![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/ieee2410nominal.plantuml?cache=no)
 
-Create a collection of standard profiles that define integration of
-authentication services with ISO 8583 used for financial transactions
-(e.g., point-of-sale (POS), automated teller machine (ATM) cash
-withdrawal transactions, etc.). Such services include biometric
-authentication (as defined by IEEE Std. 2410), PIN-based, Fast
-Identity Online (FIDO), and One-Time Password (OTP) and Time-based OTP
-(TOTP) authentication methods including risk and presentation attack
-defense (PAD) measures. The scope of authentication includes primary
-authentication, second-factor authentication (2FA), step-up
-authentication (SUA), and multi-factor authentication (MFA).
+This diagram shows carrying out the cash disbursement using standard ATM methods. These sequences are outside the scope of IEEE P1940.
+
+![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/p1940CashDisburse.plantuml?cache=no) 
+
+# 5 Determining Risk
+The relying party (RP) MUST determine the risk involved in transactions carried out using IEEE P1940 and prescribe authentication methods commensurate with the risk level.
+
+Mobile banking apps typically have standard capabilities for which they know, by experience, the risk of financial loss or impact is low. Accordingly, mobile access to these capabilities requires a minimum level of authentication. These standard capabilities include:
+
+* Access the mobile app
+* Show account balances and account transactions
+* Deposit checks
+* Pay bills
+
+IEEE P1940 adherent mobile apps MAY have one or both of these additional capabilities for which the risk of financial loss or impact is higher as the transaction results in immediate delivery of cash and merchandise which are more difficult to recover when obtained by an imposter. These additional capabilities include:
+
+* Initiate a cardless ATM cash withdrawal
+* Initiate a cardless point of sale transaction
+
+Moreover, the risk increases as the amount of cash or the value of merchandise increases. Financial institutions generally have policies limiting the amounts available for withdrawal or purchase but these policies are outside the scope of IEEE P1940. 
+
+As a means to consistently measure risk inherent in various network transactions, the Vectors of Trust RFC8485 recommends using the guidelines prescribed in NIST Special Publication 800-63 Digital Identity Guidelines [[SP-800-63-3](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-63-3.pdf)]. 
+
+[SP-800-63-3] describes three components of identity assurance that  provides agencies flexibility in choosing identity solutions. 
+
+* **IAL (Identity Assurance Level)**: The robustness of the identity proofing process to confidently determine the identity of an individual. IAL is selected to mitigate potential identity proofing errors.
+* **AAL (Authenticator Assurance Level)**: The robustness of the authentication process itself, and the binding between an authenticator and a specific individual’s identifier. AAL is selected to mitigate potential authentication errors (i.e., a false claimant using a credential that is not rightfully theirs).
+* **FAL (Federation Assurance Level)**: The robustness of the assertion protocol the federation uses to communicate authentication and attribute information (if applicable) to an RP. FAL is optional as not all digital systems will leverage federated identity architectures. FAL is selected to mitigate potential federation errors (an identity assertion is compromised).
+
+The above three components align closely with the components in RFC8485, and similarly some of the components are out of scope for IEEE P1940
+* The IAL component is outside the scope of IEEE P1940 as identity proofing occurs before a user engages in a P1940 transaction.
+* The FAL component is outside the scope of IEEE P1940 as P1940 transactions do not involve federated authentication assertions.
+
+What remains relevant to IEEE P1940 is AAL which [SP-800-63-3] breaks down into these **Strength of Authenticator Assurance Levels**.
+* **AAL1** provides some assurance that the claimant controls an authenticator registered to the subscriber. AAL1 requires single-factor authentication using a wide range of available authentication technologies. Successful authentication requires that the claimant prove possession and control of the authenticator(s) through a secure authentication protocol. 
+* **AAL2** provides high confidence that the claimant controls authenticator(s) registered to the subscriber. Proof of possession and control of two different authentication factors is required through a secure authentication protocol. Approved cryptographic techniques are required at AAL2 and above. 
+* **AAL3** provides very high confidence that the claimant controls authenticator(s) registered to the subscriber. Authentication at AAL3 is based on proof of possession of a key through a cryptographic protocol. AAL3 is like AAL2 but also requires a “hard” cryptographic authenticator that provides verifier impersonation resistance. Approved cryptographic techniques are required. To authenticate at AAL3, claimants SHALL prove possession and control of two distinct authentication factors through secure authentication protocol(s).
+
+To determine an appropriate AAL level [SP-800-63-3] provides a decision tree where you ask questions about these potential impacts from a fraudulent or false positive authentication for each transaction type being requested by a mobile app user.
+
+]]**Important**.  A transaction type (such as an ATM cash withdrawal request or POS purchase) can have different risks depending on the cash value requested.
+
+**Potential impact of inconvenience, distress, or damage to standing or reputation:** 
+* Low: at worst, limited, short-term inconvenience, distress, or embarrassment to any party. 
+* Moderate: at worst, serious short-term or limited long-term inconvenience, distress, or damage to the standing or reputation of any party. 
+* High: severe or serious long-term inconvenience, distress, or damage to the standing or reputation of any party. This is ordinarily reserved for situations with particularly severe effects or which potentially affect many individuals
+
+**Potential impact of financial loss: **
+* Low: at worst, an insignificant or inconsequential financial loss to any party, or at worst, an insignificant or inconsequential institution liability. 
+* Moderate: at worst, a serious financial loss to any party, or a serious institution liability. 
+* High: severe or catastrophic financial loss to any party, or severe or catastrophic institution liability.
+
+
+

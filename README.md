@@ -43,7 +43,7 @@ The Identity Provider can be polled or notified by the Relying Party regarding a
 The Identity Provider and associated mobile SDK are responsible for security of the user’s privately identifiable information (PII).  No PII is shared to the Relying Party - only the authentication result (true or false) and MAY contain a Vector of Trust (VOT).  Any additional information is outside the scope of this profile such as attribute values (i.e., name, address, DoB, etc.) obtained via other IDP APIs.
 
 ### 2.1.5 Security Considerations
-All transactions MUST be protected in transit by TLS as described in BCP195.  Authentication Servers SHOULD take into account device postures when dealing with native apps if possible. Device postures include characteristics such as a user's lock screen setting, or if the app has 'root access' (meaning the device OS may be compromised to gain additional privileges not intended by the vendor), or if there is a device attestation for the app for its validity. Specific policies or capabilities are outside the scope of this specification.  All clients MUST conform to applicable recommendations found in the Security Considerations sections of [RFC6749].
+All transactions MUST be protected in transit by TLS as described in BCP195.  Authentication Servers SHOULD take into account device postures when dealing with native apps if possible. Device postures include characteristics such as a user's lock screen setting, or if the app has 'root access' (meaning the device OS may be compromised to gain additional privileges not intended by the vendor), or if there is a device attestation for the app for its validity. Specific policies or capabilities are outside the scope of this specification.  All clients MUST conform to applicable recommendations found in the Security Considerations sections of [[RFC6749](https://tools.ietf.org/html/rfc6749)].
 
 ### 2.1.6 Threat Model
 IEEE 2410 determines the user and device enrollment process mitigates man-in-the-middle (MiTM) attacks that may be used to intercept calls from the mobile device to the relying party and the mobile device to the identity provider.  Although protected by TLS, we still recommend the association of IDP and RP within a trusted network and the IDP-RP connections MUST use client certificates (called friend certificates) as required by IEEE 2410.
@@ -122,32 +122,141 @@ To do this, an RP must know the types of authentication methods available and th
 
 Lastly, once an authentication has occurred, the IdP returns the result to the RP along with a vector of trust (VoT) component-value string declaring the specific methods and policies used.
 
-The IEEE P1940 example ATM transaction involves a number of actors to handle aspects of the transaction. This architecture diagram shows an ATM network and a mobile banking app communicating with bank backend servers to carry out a transaction. 
+The IEEE P1940 example ATM transaction involves a number of actors to handle aspects of the transaction. This architecture diagram shows the actors in an ATM network a mobile banking app communicating with bank backend servers to carry out a transaction. 
 
+![Image of ATM network](https://github.com/p1040/p1940/master/VoTArchitecture.png?cache=no)
 
+The architecture diagram has these elements. 
 
+ * **ATM Terminal with Plugin**: Standard ATM hardware terminal with software support for mobile flow.
 
+ * **Acquiring Switch**: Connects multiple ATM systems to a payment network used by banks to handle ATM transactions using the ISO8583 protocol.
 
-Create a collection of standard profiles that define integration of
-authentication services with ISO 8583 used for financial transactions
-(e.g., point-of-sale (POS), automated teller machine (ATM) cash
-withdrawal transactions, etc.). Such services include biometric
-authentication (as defined by IEEE Std. 2410), PIN-based, Fast
-Identity Online (FIDO), and One-Time Password (OTP) and Time-based OTP
-(TOTP) authentication methods including risk and presentation attack
-defense (PAD) measures. The scope of authentication includes primary
-authentication, second-factor authentication (2FA), step-up
-authentication (SUA), and multi-factor authentication (MFA).
+ * **Mobile App**: A banking app for performing mobile banking operations. The app runs on a mobile device such as a smartphone. The app Includes an embedded IdP SDK.
+
+ * **IdP SDK**: Handles mobile multi factor authentication operations in response to requests from the IdP server located at the bank.
+
+ * **TxP Server**: Bank back end transaction processing server that handles deposit and withdrawal functions according to banking rules.
+
+ * **HCE (Host Card Emulator)**: Emulates a user’s bank debit or credit card to validate a bank card chip used at a remote ATM or POS terminal.
+
+ * **Issuing authorization system**: Holds bank customer parameters such as account number, card identifiers, and cryptographic keys used for transaction authorization.
+
+ * **IdP Server**: An IEEE P1940-compliant service that handles multi-factor authentication in response to user authentication requests from the bank TxP server. 
+
+This series of transaction diagrams shows a sample authentication scenario illustrating the use of VtRs and VoTs in an ATM transaction. 
+
+Figure 2 shows the initial transaction phase where the user stages the transaction (a cash withdrawal from the ATM). These sequences are outside the scope of IEEE P1940.
+
+![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/p1940StagingRequest?cache=no) 
+
+This diagram illustrates authentication sequences where the TxP knows the amount of the transaction and issues an authentication request to the IdP. These sequences are in the scope of IEEE P1940.
+
+The embedded IdP SDK is shown near to the IdP server to clarify these interactions
 
 ![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/ieee2410nominal.plantuml?cache=no)
 
-Create a collection of standard profiles that define integration of
-authentication services with ISO 8583 used for financial transactions
-(e.g., point-of-sale (POS), automated teller machine (ATM) cash
-withdrawal transactions, etc.). Such services include biometric
-authentication (as defined by IEEE Std. 2410), PIN-based, Fast
-Identity Online (FIDO), and One-Time Password (OTP) and Time-based OTP
-(TOTP) authentication methods including risk and presentation attack
-defense (PAD) measures. The scope of authentication includes primary
-authentication, second-factor authentication (2FA), step-up
-authentication (SUA), and multi-factor authentication (MFA).
+This diagram shows carrying out the cash disbursement using standard ATM methods. These sequences are outside the scope of IEEE P1940.
+
+![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/p1940CashDisburse.plantuml?cache=no) 
+
+# 5 Determining Risk
+The relying party (RP) MUST determine the risk involved in transactions carried out using IEEE P1940 and prescribe authentication methods commensurate with the risk level.
+
+Mobile banking apps typically have standard capabilities for which they know, by experience, the risk of financial loss or impact is low. Accordingly, mobile access to these capabilities requires a minimum level of authentication. These standard capabilities include:
+
+* Access the mobile app
+* Show account balances and account transactions
+* Deposit checks
+* Pay bills
+
+IEEE P1940 adherent mobile apps MAY have one or both of these additional capabilities for which the risk of financial loss or impact is higher as the transaction results in immediate delivery of cash and merchandise which are more difficult to recover when obtained by an imposter. These additional capabilities include:
+
+* Initiate a cardless ATM cash withdrawal
+* Initiate a cardless point of sale transaction
+
+Moreover, the risk increases as the amount of cash or the value of merchandise increases. Financial institutions generally have policies limiting the amounts available for withdrawal or purchase but these policies are outside the scope of IEEE P1940. 
+
+As a means to consistently measure risk inherent in various network transactions, the Vectors of Trust RFC8485 recommends using the guidelines prescribed in NIST Special Publication 800-63 Digital Identity Guidelines [[SP-800-63-3](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-63-3.pdf)]. 
+
+SP-800-63-3 describes three components of identity assurance that  provides agencies flexibility in choosing identity solutions. 
+
+* **IAL (Identity Assurance Level)**: The robustness of the identity proofing process to confidently determine the identity of an individual. IAL is selected to mitigate potential identity proofing errors.
+* **AAL (Authenticator Assurance Level)**: The robustness of the authentication process itself, and the binding between an authenticator and a specific individual’s identifier. AAL is selected to mitigate potential authentication errors (i.e., a false claimant using a credential that is not rightfully theirs).
+* **FAL (Federation Assurance Level)**: The robustness of the assertion protocol the federation uses to communicate authentication and attribute information (if applicable) to an RP. FAL is optional as not all digital systems will leverage federated identity architectures. FAL is selected to mitigate potential federation errors (an identity assertion is compromised).
+
+The above three components align closely with the components in RFC8485, and similarly some of the components are out of scope for IEEE P1940
+* The IAL component is outside the scope of IEEE P1940 as identity proofing occurs before a user engages in a P1940 transaction.
+* The FAL component is outside the scope of IEEE P1940 as P1940 transactions do not involve federated authentication assertions.
+
+What remains relevant to IEEE P1940 is AAL which [SP-800-63-3] breaks down into these **Strength of Authenticator Assurance Levels**.
+* **AAL1** provides some assurance that the claimant controls an authenticator registered to the subscriber. AAL1 requires single-factor authentication using a wide range of available authentication technologies. Successful authentication requires that the claimant prove possession and control of the authenticator(s) through a secure authentication protocol. 
+* **AAL2** provides high confidence that the claimant controls authenticator(s) registered to the subscriber. Proof of possession and control of two different authentication factors is required through a secure authentication protocol. Approved cryptographic techniques are required at AAL2 and above. 
+* **AAL3** provides very high confidence that the claimant controls authenticator(s) registered to the subscriber. Authentication at AAL3 is based on proof of possession of a key through a cryptographic protocol. AAL3 is like AAL2 but also requires a “hard” cryptographic authenticator that provides verifier impersonation resistance. Approved cryptographic techniques are required. To authenticate at AAL3, claimants SHALL prove possession and control of two distinct authentication factors through secure authentication protocol(s).
+
+To determine an appropriate AAL level [SP-800-63-3] provides a decision tree where you ask questions about these potential impacts from a fraudulent or false positive authentication for each transaction type being requested by a mobile app user.
+
+> **Important**.  A transaction type (such as an ATM cash withdrawal request or POS purchase) can have different risks depending on the cash value requested.
+
+**Potential impact of inconvenience, distress, or damage to standing or reputation:** 
+* Low: at worst, limited, short-term inconvenience, distress, or embarrassment to any party. 
+* Moderate: at worst, serious short-term or limited long-term inconvenience, distress, or damage to the standing or reputation of any party. 
+* High: severe or serious long-term inconvenience, distress, or damage to the standing or reputation of any party. This is ordinarily reserved for situations with particularly severe effects or which potentially affect many individuals
+
+**Potential impact of financial loss:**
+* Low: at worst, an insignificant or inconsequential financial loss to any party, or at worst, an insignificant or inconsequential institution liability. 
+* Moderate: at worst, a serious financial loss to any party, or a serious institution liability. 
+* High: severe or catastrophic financial loss to any party, or severe or catastrophic institution liability.
+
+**Potential impact of harm to institution programs or public interests:** 
+
+* Low: at worst, a limited adverse effect on organizational operations or assets, or public interests. Examples of limited adverse effects are: (i) mission capability degradation to the extent and duration that the organization is able to perform its primary functions with noticeably reduced effectiveness, or (ii) minor damage to organizational assets or public interests.
+* Moderate: at worst, a serious adverse effect on organizational operations or assets, or public interests. Examples of serious adverse effects are: (i) significant mission capability degradation to the extent and duration that the organization is able to perform its primary functions with significantly reduced effectiveness; or (ii) significant damage to organizational assets or public interests. 
+* High: a severe or catastrophic adverse effect on organizational operations or assets, or public interests. Examples of severe or catastrophic effects are: (i) severe mission capability degradation or loss of to the extent and duration that the organization is unable to perform one or more of its primary functions; or (ii) major damage to organizational assets or public interests.
+
+**Potential impact of unauthorized release of sensitive information:** 
+
+* Low: at worst, a limited release of personal, U.S. government sensitive, or commercially sensitive information to unauthorized parties resulting in a loss of confidentiality with a low impact as defined in FIPS 199.
+* Moderate: at worst, a release of personal, U.S. government sensitive, or commercially sensitive information to unauthorized parties resulting in loss of confidentiality with a moderate impact as defined in FIPS 199. 
+* High: a release of personal, U.S. government sensitive, or commercially sensitive information to unauthorized parties resulting in loss of confidentiality with a high impact as defined in FIPS 199.
+
+**Potential impact to personal safety:** 
+* Low: at worst, minor injury not requiring medical treatment. 
+* Moderate: at worst, moderate risk of minor injury or limited risk of injury requiring medical treatment. 
+* High: a risk of serious injury or death. 
+
+**The potential impact of civil or criminal violations is:** 
+* Low: at worst, a risk of civil or criminal violations of a nature that would not ordinarily be subject to enforcement efforts. 
+* Moderate: at worst, a risk of civil or criminal violations that may be subject to enforcement efforts. 
+* High: a risk of civil or criminal violations that are of special importance to enforcement programs.
+
+This decision matrix diagram derives from the decision tree diagram for selecting AAL in SP-800-63-3. The diagram resolves the full tree to its core decision matrix for ease of use.  
+
+SP-800-63-3 weights some questions so that a low or moderate impact response falls in the higher category. That weighting is reflected in this decision matrix for AAL.
+
+Answering each of the above questions relative to the assets being protected leads to an appropriate AAL level.
+
+![Image of ATM network](https://github.com/p1040/p1940/master/AALDecisionMatrix.png?cache=no)
+
+When you have an AAL for a transaction type and value, apply the following rules to select appropriate authentication measures for that transaction type.  
+
+* For AAL1 (single-factor), use at least **one** authentication method and optionally, one or more additional security measures) as appropriate for the resource being protected.
+* For AAL2 (two-factor), use at least **twov** authentication methods (and optionally, one or more additional security measures) as appropriate for the resource being protected.
+* For AAL3 (multi-factor), use at least **two** authentication methods (and optionally, one or more additional security measures) as appropriate for the resource being protected.
+
+# 6. Normative References
+
+# Appendix A. Acknowledgements
+The IEEE Community would like to thank the following people for their contributions to this specification: John Callahan, Vince Endres, Bruce, Alan Theimann.
+
+# Appendix B. Notices
+Copyright (c) 2019 IEEE.
+
+# Appendix C. Document History
+2019-12-31
+* Initial draft completed.
+
+# Authors
+John Callahan <john.callahan@ieee.org>
+
+

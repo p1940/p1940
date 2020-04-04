@@ -85,33 +85,33 @@ See Appendix X for the complete specification of the P1940 trust framework.
 
 For now it’s here:
 
-**P Identity proofing - Not Applicable.
+**P Identity proofing:** Not Applicable
  
-**C Primary credential usage
-**Defaults (from VoT RFC 8485)
-**C0 No credential is used / anonymous public service
-**Ca Simple session HTTP cookies (with nothing else)
-Cb Known device, such as those indicated through device posture or device management systems
-Cc Shared secret, such as a username and password combination
-Cd Cryptographic proof of key possession using shared key
-Ce Cryptographic proof of key possession using asymmetric key
-Cf Sealed hardware token / keys stored in a trusted platform module
+**C Primary credential usage**
+**Defaults (from VoT RFC 8485)**
+* C0 No credential is used / anonymous public service
+* Ca Simple session HTTP cookies (with nothing else)
+* Cb Known device, such as those indicated through device posture or device management systems
+* Cc Shared secret, such as a username and password combination
+* Cd Cryptographic proof of key possession using shared key
+* Ce Cryptographic proof of key possession using asymmetric key
+* Cf Sealed hardware token / keys stored in a trusted platform module
 
-**Extensions:
-Cg Locally verified biometric
-Ch Verified Split Biometric 
-Ci Authentication Freshness Not sure this can be represented practically.
-Cx FIDO authentication
-Cj Pad detection used
-Ck UBA used
-Cl Geolocation used
-Cm SUA used  (not sure if these last three make sense)
-Cm 2FA used
-Co  MFA used 
+**Extensions:**
+* Cg Locally verified biometric
+* Ch Verified Split Biometric 
+* Ci Authentication Freshness Not sure this can be represented practically.
+* Cx FIDO authentication
+* Cj Pad detection used
+* Ck UBA used
+* Cl Geolocation used
+* Cm SUA used  (not sure if these last three make sense)
+* Cn 2FA used
+* Co  MFA used 
 
-**M Primary credential management - Not Applicable.
+**M Primary credential management:** Not Applicable.
 
-**A Assertion presentation - Not Applicable.
+**A Assertion presentation:** Not Applicable.
 
 # 4 IEEE P1940 Example
 P1940 architectures involve mobile client apps communicating with backend financial servers to initiate and carry out ATM and POS transactions, using mobile app ‘authenticators’ to prove a user identity with an agreed-upon level of assurance suited to the transaction risk level. 

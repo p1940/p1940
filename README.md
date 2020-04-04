@@ -124,7 +124,7 @@ Lastly, once an authentication has occurred, the IdP returns the result to the R
 
 The IEEE P1940 example ATM transaction involves a number of actors to handle aspects of the transaction. This architecture diagram shows the actors in an ATM network a mobile banking app communicating with bank backend servers to carry out a transaction. 
 
-![Image of ATM network](https://github.com/p1040/p1940/master/VoTArchitecture.png?cache=no)
+![Image of ATM network](http://raw.github.com/p1940/p1940/master/VoTArchitecture.png?cache=no)
 
 The architecture diagram has these elements. 
 
@@ -236,7 +236,7 @@ SP-800-63-3 weights some questions so that a low or moderate impact response fal
 
 Answering each of the above questions relative to the assets being protected leads to an appropriate AAL level.
 
-![Image of ATM network](https://github.com/p1040/p1940/master/AALDecisionMatrix.png?cache=no)
+![AAL Decision Tree](http://raw.github.com/p1940/p1940/master/AALDecisionMatrix.png?cache=no)
 
 When you have an AAL for a transaction type and value, apply the following rules to select appropriate authentication measures for that transaction type.  
 

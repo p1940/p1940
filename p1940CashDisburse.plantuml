@@ -1,24 +1,22 @@
 @startuml
 autonumber
 participant "User" as User
-participant "Vendor\nMobile App" as MobileApp
-participant "ATM\nTerminal\nPlugin" as ATM
-participant "TxP Server" as TxP
-participant "HCE" as HCE
+participant "Mobile App" as MobileApp 
+participant "ATM\nTerminal" as ATM
+participant "Mobile App\nServer" as MobileSrv
 participant "Acquiring\nSwitch" as Switch
 participant "Issuing\nAuthorization\nSystem" as Issuer
 
-TxP -> HCE : EMV L2\nCommands
-HCE --> TxP : ARQC or AAC
-TxP -> ATM : ARQC or AAC
+
+MobileSrv -> ATM : Staged transaction and bio details
 ATM -> ATM : Terminal processing\n+ PIN Block + Bio
 ATM -> Switch : Payment Request ISO 8583
 Switch -> Issuer : Authorization\nRequest
-Issuer --> Switch : ARPC
-Switch --> ATM : ARPC
+Issuer --> Switch : Response
+Switch --> ATM : Response
 ATM -> ATM : Dispense\nCash
-ATM -> TxP : Fulfillment\nResponse
-TxP -> MobileApp : Acknowledgement
-User ->  MobileApp : Ack\nResponse
-MobileApp -> TxP : Sync-Up
+MobileSrv -> ATM : Fulfillment\nResponse
+MobileSrv -> MobileApp : Acknowledgement
+User <->  MobileApp : Ack\nResponse
+MobileApp --> MobileSrv : Sync-Up
 @enduml

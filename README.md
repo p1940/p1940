@@ -116,33 +116,31 @@ For now it’s here:
 # 4 IEEE P1940 Example
 P1940 architectures involve mobile client apps communicating with backend financial servers to initiate and carry out ATM and POS transactions, using mobile app ‘authenticators’ to prove a user identity with an agreed-upon level of assurance suited to the transaction risk level. 
 
-A bank (called an RP or relying party) TxP server evaluates the risk in a proposed transaction and generates an appropriate vector of trust request (VtR) which is consumed by an IdP to issue an authentication request with the appropriate assurance level.  For example, a low-risk transaction of US $10 could require just a fingerprint like Touch ID on an iPhone-based mobile app.  A higher-risk transaction (say US $200.00) could require Touch ID with presentation attack detection and geolocation of the user 
+End users gain access to the features through a service provider.  The service provider may be a financial institution or a non-bank entity providing similar services.  The service provider is called an RP (relying party).  The service provider will allow users to conduct transactions using a mobile application.   The service provider has a mobile application that interacts with a mobile application server.  The mobile application server evaluates the risk in a proposed transaction and generates an appropriate vector of trust request (VtR) which is consumed by an IdP to issue an authentication request with the appropriate assurance level.  For example, a low-risk transaction of US $10 could require just a fingerprint like Touch ID on an iPhone-based mobile app.  A higher-risk transaction (say US $200.00) could require Touch ID with presentation attack detection and geolocation of the user.
 
 To do this, an RP must know the types of authentication methods available and their relative assurance levels. IdP vendors use this specification to design processes that consume VtRs and generate appropriate authentication requests. The exact method for transforming VtRs into authentication requests is outside the scope of this specification.
 
 Lastly, once an authentication has occurred, the IdP returns the result to the RP along with a vector of trust (VoT) component-value string declaring the specific methods and policies used.
 
-The IEEE P1940 example ATM transaction involves a number of actors to handle aspects of the transaction. This architecture diagram shows the actors in an ATM network a mobile banking app communicating with bank backend servers to carry out a transaction. 
+The IEEE P1940 example ATM transaction involves a number of actors to handle aspects of the transaction. This architecture diagram shows the actors in an ATM network including a mobile app communicating with service provider servers to carry out a transaction. 
 
 ![Image of ATM network](http://raw.github.com/p1940/p1940/master/VoTArchitecture.png?cache=no)
 
 The architecture diagram has these elements. 
 
- * **ATM Terminal with Plugin**: Standard ATM hardware terminal with software support for mobile flow.
+ * **ATM Terminal**: Standard ATM hardware terminal with software support for mobile flow.
 
- * **Acquiring Switch**: Connects multiple ATM systems to a payment network used by banks to handle ATM transactions using the ISO8583 protocol.
+ * **Acquiring Switch**: Connects one or more ATM terminals to a payment network or issuing authorization system using the ISO 8583 protocol.
 
- * **Mobile App**: A banking app for performing mobile banking operations. The app runs on a mobile device such as a smartphone. The app Includes an embedded IdP SDK.
+ * **Mobile App**: A mobile app provided to a user by a service provider for performing mobile transactions. The app runs on a mobile device such as a smartphone. The app includes an embedded IdP SDK.
 
- * **IdP SDK**: Handles mobile multi factor authentication operations in response to requests from the IdP server located at the bank.
+ * **IdP SDK**: Handles mobile multi factor authentication operations in response to requests from the IdP server located at the service provider.
 
- * **TxP Server**: Bank back end transaction processing server that handles deposit and withdrawal functions according to banking rules.
+ * **Mobile App Server**: Service provider server that handles user requests according to business and risk management rules. 
 
- * **HCE (Host Card Emulator)**: Emulates a user’s bank debit or credit card to validate a bank card chip used at a remote ATM or POS terminal.
+ * **Issuing authorization system**: A system that holds user parameters such as account number, card identifiers, and cryptographic keys, and responds to transaction authorization requests on behalf of a card issuer. 
 
- * **Issuing authorization system**: Holds bank customer parameters such as account number, card identifiers, and cryptographic keys used for transaction authorization.
-
- * **IdP Server**: An IEEE P1940-compliant service that handles multi-factor authentication in response to user authentication requests from the bank TxP server. 
+ * **IdP Server**: An IEEE P1940-compliant service that handles multi-factor authentication in response to user authentication requests from a mobile app server. 
 
 This series of transaction diagrams shows a sample authentication scenario illustrating the use of VtRs and VoTs in an ATM transaction. 
 
@@ -150,9 +148,9 @@ Figure 2 shows the initial transaction phase where the user stages the transacti
 
 ![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/p1940StagingRequest?cache=no) 
 
-This diagram illustrates authentication sequences where the TxP knows the amount of the transaction and issues an authentication request to the IdP. These sequences are in the scope of IEEE P1940.
+This diagram illustrates authentication sequences where the mobile app server knows the amount of the transaction and issues an authentication request to the IdP. These sequences are in the scope of IEEE P1940.
 
-The embedded IdP SDK is shown near to the IdP server to clarify these interactions
+The embedded IdP SDK is shown near to the IdP server to clarify these interactions.
 
 ![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/ieee2410nominal.plantuml?cache=no)
 

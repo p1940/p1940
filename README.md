@@ -116,7 +116,7 @@ Co  MFA used
 # 4 IEEE P1940 Example
 P1940 architectures involve mobile client apps communicating with backend financial servers to initiate and carry out ATM and POS transactions, using mobile app ‘authenticators’ to prove a user identity with an agreed-upon level of assurance suited to the transaction risk level. 
 
-A bank (called an RP or relying party) TxP server evaluates the risk in a proposed transaction and generates an appropriate vector of trust request (VtR) which is consumed by an IdP to issue an authentication request with the appropriate assurance level.  For example, a low-risk transaction of US $10 could require just a fingerprint like Touch ID on an iPhone-based mobile app.  A higher-risk transaction (say US $200.00) could require Touch ID with presentation attack detection and geolocation of the user 
+A bank (called an RP or relying party) TxP server evaluates the risk in a proposed transaction and generates an appropriate vector of trust request (VtR) which is consumed by an IdP to issue an authentication request with the appropriate assurance level. Consider the case of low and high denominational transactions with associated risk factors (low and high). Low risk transactions could be authenticated by hardware-backed proprietary verification systems like Touch ID on iPhones. Higher risk transactions could require additional layers of security, like geolocation verifications.
 
 To do this, an RP must know the types of authentication methods available and their relative assurance levels. IdP vendors use this specification to design processes that consume VtRs and generate appropriate authentication requests. The exact method for transforming VtRs into authentication requests is outside the scope of this specification.
 

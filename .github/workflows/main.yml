@@ -20,4 +20,4 @@ jobs:
           args: --output=README.pdf README.md
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: Create PDF automatically using pandoc
+          commit_message: Create PDF automagically using pandoc

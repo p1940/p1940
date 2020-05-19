@@ -9,6 +9,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           token: ${{ secrets.PAT_TOKEN }}
+          ref: ${{ github.head_ref }}
       - uses: docker://pandoc/latex:2.9
         with:
           args: --output=README.pdf README.md

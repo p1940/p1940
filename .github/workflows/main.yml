@@ -1,6 +1,6 @@
 name: pdfize
 
-on: [push, pull_request]
+on: push
 
 jobs:
   convert_via_pandoc:

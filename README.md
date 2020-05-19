@@ -22,7 +22,7 @@ This specification uses the terms "Automated Teller Machine", "Authentication Se
 ## 1.3. Conformance
 The following profiles are specified in this document:
 
-IEEE 2410 (Biometric authentication)
+IEEE Std 2410 (Biometric authentication)
 
 Additional profiles may be added in future revisions of this document.
 

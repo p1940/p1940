@@ -30,7 +30,7 @@ Additional profiles may be added in future revisions of this document.
 A profile defines specific API calls and associated parameters in context with the IEEE P1940 trust framework defined in Section X of this document.  Please refer to the transaction diagram in Section X for appropriate mappings of service requests and responses.
 
 ## 2.1 IEEE 2410 Profile
-The IEEE 2410 profile maps specific API calls to IEEE P1940 transactions (see Diagram X).  It specifies requirements for requests to an IEEE 2410 Identity Provider service using biometric authentication.
+The IEEE Std 2410 profile maps specific API calls to IEEE P1940 transactions (see Diagram X).  It specifies requirements for requests to an IEEE 2410 Identity Provider service using biometric authentication.
 
 ### 2.1.1 AuthenticationStart/AuthenticationRequest (diagram X links 3, 11)
 An AuthenticationStart typically originates with a relying party (RP) as a request that sends the userid and deviceid parameters and returns session id for an enrolled account on a specific device.  The request is asynchronous resulting in a session opportunity being created.  Creation of a session opportunity causes a subsequent out-of-band push notification (transaction diagram link #3) to be sent to the enrolled device for that user. OPTIONALLY, a polling sequence from the mobile device may be used instead of a push notification.  OPTIONALLY, the request MAY contain a Vector of Trust Request (VTR).  

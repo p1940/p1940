@@ -11,7 +11,7 @@ jobs:
           ref: ${{ github.head_ref }}
       - uses: docker://pandoc/latex:2.9.2
         with:
-          args: README.md --output=README.pdf --template trivadis.tex
+          args: README.md --output=README.pdf
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Create PDF automagically using pandoc

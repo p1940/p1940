@@ -3,7 +3,6 @@ title: "IEEE P1940"
 subtitle: "Standard Profiles for ISO 8583 Authentication Services"
 date: "2020 June"
 titlepage: true
-logo: ieeelogo.png
 tvdlocname: IEEE Standards Association
 tvdlocstreet: 501 Hoes Lane, 3rd Floor
 tvdlocplz: 08855

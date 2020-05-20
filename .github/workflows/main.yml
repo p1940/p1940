@@ -10,6 +10,7 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
       - run: sudo apt-get install --no-install-recommends texlive-latex-extra
+      - run: sudo apt-get install --no-install-recommends texlive-extras
       - run: sudo apt-get install --no-install-recommends texlive-generic-recommended
       - uses: docker://pandoc/latex:2.9
         with:

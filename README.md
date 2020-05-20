@@ -1,3 +1,30 @@
+---
+title: "IEEE P1940"
+subtitle: "Standard Profiles for ISO 8583 Authentication Services"
+date: "2020 June"
+titlepage: true
+logo: ieeelogo.png
+tvdlocname: IEEE Standards Association
+tvdlocstreet: 501 Hoes Lane, 3rd Floor
+tvdlocplz: 08855
+tvdloccity:  Piscataway, NJ
+tvdwriter: J. Callahan
+tvdtitle: Chair, P1940
+tvdmail: john.callahan@ieee.org
+tvdphone: +17329810060
+tvddocversion: 0.0.1
+listings-disable-line-numbers: true
+toc: false
+numbersections: false
+mainfont: Nunito Sans SemiBold
+monofont: Courier New
+lang: en-US
+colorlinks: true
+geometry:
+- top=15mm
+- bottom=15mm
+---
+
 # 1. Introduction
 
 This document is a collection of profiles that define integration of

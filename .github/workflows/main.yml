@@ -9,8 +9,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
-      - run: sudo apt update && sudo apt-get install apt-file
-      - run: sudo apt-file search adjustbox.sty
+      - run: sudo apt update && sudo apt-get install texlive-latex-extra
       - uses: docker://pandoc/latex:2.9
         with:
           args: README.md --output=README.pdf --template trivadis.tex

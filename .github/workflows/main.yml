@@ -9,6 +9,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
+      - run: tlmgr install adjustbox
       - uses: docker://pandoc/latex:2.9
         with:
           args: README.md --output=README.pdf --template trivadis.tex

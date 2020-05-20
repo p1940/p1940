@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
-      - run: sudo apt-get install apt-file
+      - run: sudo apt update && sudo apt-get install apt-file
       - run: sudo apt-file search adjustbox.sty
       - uses: docker://pandoc/latex:2.9
         with:

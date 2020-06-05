@@ -172,17 +172,15 @@ This series of transaction diagrams shows a sample authentication scenario illus
 
 Figure 2 shows the initial transaction phase where the user stages the transaction (a cash withdrawal from the ATM). These sequences are outside the scope of IEEE P1940.
 
-![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/p1940StagingRequest?cache=no) 
+![Initial Transaction Phase (out of scope of IEEE P1940)](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/p1940StagingRequest.plantuml?cache=no)
 
-This diagram illustrates authentication sequences where the mobile app server knows the amount of the transaction and issues an authentication request to the IdP. These sequences are in the scope of IEEE P1940.
+Figure 3 illustrates authentication sequences where the mobile app server knows the amount of the transaction and issues an authentication request to the IdP. These sequences are in the scope of IEEE P1940. The embedded IdP SDK is shown near to the IdP server to clarify these interactions.
 
-The embedded IdP SDK is shown near to the IdP server to clarify these interactions.
+![Authentication Phase (in scope of IEEE P1940)](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/ieee2410nominal.plantuml?cache=no)
 
-![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/ieee2410nominal.plantuml?cache=no)
+Figure 4 shows carrying out the cash disbursement using standard ATM methods. These sequences are outside the scope of IEEE P1940.
 
-This diagram shows carrying out the cash disbursement using standard ATM methods. These sequences are outside the scope of IEEE P1940.
-
-![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/p1940CashDisburse.plantuml?cache=no) 
+![Cash Disbursement Phase (out of scope of IEEE P1940)](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/p1940CashDisburse.plantuml?cache=no) 
 
 # 5 Determining Risk
 The relying party (RP) MUST determine the risk involved in transactions carried out using IEEE P1940 and prescribe authentication methods commensurate with the risk level.

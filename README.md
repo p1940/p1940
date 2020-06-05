@@ -59,7 +59,7 @@ A profile defines specific API calls and associated parameters in context with t
 The IEEE Std. 2410 profile maps specific API calls to IEEE P1940 transactions (see Diagram X).  It specifies requirements for requests to an IEEE Std. 2410 Identity Provider service using biometric authentication.
 
 ### 2.1.1 AuthenticationStart/AuthenticationRequest (diagram X links 3, 11)
-An AuthenticationStart typically originates with a relying party (RP) as a request that sends the userid and deviceid parameters and returns session id for an enrolled account on a specific device.  The request is asynchronous resulting in a session opportunity being created.  Creation of a session opportunity causes a subsequent out-of-band push notification (transaction diagram link #3) to be sent to the enrolled device for that user. OPTIONALLY, a polling sequence from the mobile device may be used instead of a push notification.  OPTIONALLY, the request MAY contain a Vector of Trust Request (VTR).  
+An AuthenticationStart typically originates with a relying party (RP) as a request that sends the user-id and device-id parameters and returns session-id for an enrolled account on a specific device.  The request is asynchronous resulting in a session opportunity being created.  Creation of a session opportunity causes a subsequent out-of-band push notification (transaction diagram link #3) to be sent to the enrolled device for that user. OPTIONALLY, a polling sequence from the mobile device may be used instead of a push notification.  OPTIONALLY, the request MAY contain a Vector of Trust Request (VTR).  
 ### 2.1.2 AuthenticationResponse (diagram X links 5, 10)
 An AuthenticationResponse call contains the results of the mobile device execution of specified authentication mode(s) the device requested by an out-of-band push notification.  The AuthenticationResponse SHOULD NOT contain the literal Vector of Trust (VOT) results, but IEEE Std. 2410 specifics of the authentication results including biometric modalities.
 
@@ -72,7 +72,7 @@ The Identity Provider and associated mobile SDK are responsible for security of 
 All transactions MUST be protected in transit by TLS as described in BCP195.  Authentication Servers SHOULD take into account device postures when dealing with native apps if possible. Device postures include characteristics such as a user's lock screen setting, or if the app has 'root access' (meaning the device OS may be compromised to gain additional privileges not intended by the vendor), or if there is a device attestation for the app for its validity. Specific policies or capabilities are outside the scope of this specification.  All clients MUST conform to applicable recommendations found in the Security Considerations sections of [[RFC6749](https://tools.ietf.org/html/rfc6749)].
 
 ### 2.1.6 Threat Model
-IEEE Std. 2410 determines the user and device enrollment process mitigates man-in-the-middle (MiTM) attacks that may be used to intercept calls from the mobile device to the relying party and the mobile device to the identity provider.  Although protected by TLS, we still recommend the association of IDP and RP within a trusted network and the IDP-RP connections MUST use client certificates (called friend certificates) as required by IEEE Std. 2410.
+IEEE Std. 2410 determines the user and device enrollment process which mitigates man-in-the-middle (MiTM) attacks that may be used to intercept calls from the mobile device to the relying party and the mobile device to the identity provider.  Although protected by TLS, we still recommend the association of IDP and RP within a trusted network and the IDP-RP connections MUST use client certificates (called friend certificates) as required by IEEE Std. 2410.
 
 # 3. Trust Framework
 IEEE P1940, in part, defines a trust framework based on Vectors of Trust (VoT) [[RFC8485](https://tools.ietf.org/html/rfc8485)]. VoT prescribes an efficient method for expressing measurements of trust for use in digital identity transactions.  Historically trust measurements have fallen into two main categories: either all measurements are combined into a single scalar value or trust decisions are calculated locally based on a detailed set of attribute metadata.  VoT defines a method of conveying trust information that is more expressive than a single value but less complex than comprehensive attribute metadata.
@@ -279,6 +279,19 @@ Copyright (c) 2019 IEEE.
 # Appendix C. Document History
 2019-12-31
 * Initial draft completed.
+
+# Appendix D. Nomenclature
+| abbreviation      | Description |
+| ----------- | ----------- |
+| TLS      | Transport Layer Security |
+| SDK   | Software Development Kit |
+| IdP/IDP | Identity Provider |
+| VoT | Vector of Trust |
+| VtR | Vector of Trust Request|
+| PoS | Point of Sale  |
+| IAL | Identity Assurance Level |
+| AAL | Authenticator Assurance Level|
+| FAL | Federation Assurance Level |
 
 # Authors
 John Callahan <john.callahan@ieee.org>

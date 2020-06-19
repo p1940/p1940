@@ -11,7 +11,7 @@ tvdwriter: J. Callahan
 tvdtitle: Chair, P1940
 tvdmail: john.callahan@ieee.org
 tvdphone: +17329810060
-tvddocversion: 0.0.1
+tvddocversion: 1.0.0
 listings-disable-line-numbers: true
 toc: false
 numbersections: false
@@ -53,17 +53,17 @@ IEEE Std. 2410 (Biometric authentication)
 Additional profiles may be added in future revisions of this document.
 
 # 2. Profiles
-A profile defines specific API calls and associated parameters in context with the IEEE P1940 trust framework defined in Section X of this document.  Please refer to the transaction diagram in Section X for appropriate mappings of service requests and responses.
+A profile defines specific API calls and associated parameters in context with the IEEE P1940 trust framework defined in Section X of this document.  Please refer to the transaction diagram in Section 4 for appropriate mappings of service requests and responses.
 
 ## 2.1 IEEE Std. 2410 Profile
-The IEEE Std. 2410 profile maps specific API calls to IEEE P1940 transactions (see Diagram X).  It specifies requirements for requests to an IEEE Std. 2410 Identity Provider service using biometric authentication.
+The IEEE Std. 2410 profile maps specific API calls to IEEE P1940 transactions.  It specifies requirements for requests to an IEEE Std. 2410 Identity Provider service using biometric authentication.
 
-### 2.1.1 AuthenticationStart/AuthenticationRequest (diagram X links 3, 11)
-An AuthenticationStart typically originates with a relying party (RP) as a request that sends the user-id and device-id parameters and returns session-id for an enrolled account on a specific device.  The request is asynchronous resulting in a session opportunity being created.  Creation of a session opportunity causes a subsequent out-of-band push notification (transaction diagram link #3) to be sent to the enrolled device for that user. OPTIONALLY, a polling sequence from the mobile device may be used instead of a push notification.  OPTIONALLY, the request MAY contain a Vector of Trust Request (VTR).  
-### 2.1.2 AuthenticationResponse (diagram X links 5, 10)
+### 2.1.1 AuthenticationStart/AuthenticationRequest
+An AuthenticationStart typically originates with a relying party (RP) as a request that sends the user-id and device-id parameters and returns session-id for an enrolled account on a specific device.  The request is asynchronous resulting in a session opportunity being created.  Creation of a session opportunity causes a subsequent out-of-band push notification to be sent to the enrolled device for that user. OPTIONALLY, a polling sequence from the mobile device may be used instead of a push notification.  OPTIONALLY, the request MAY contain a Vector of Trust Request (VTR).  
+### 2.1.2 AuthenticationResponse
 An AuthenticationResponse call contains the results of the mobile device execution of specified authentication mode(s) the device requested by an out-of-band push notification.  The AuthenticationResponse SHOULD NOT contain the literal Vector of Trust (VOT) results, but IEEE Std. 2410 specifics of the authentication results including biometric modalities.
 
-### 2.1.3 GetSessionStatus (diagram X links 5a, 10a)
+### 2.1.3 GetSessionStatus
 The Identity Provider can be polled or notified by the Relying Party regarding an active session created by an AuthenticationStart (see 2.1.1).  If the session is authenticated, a call to GetSessionStatus within its active period (i.e., not expired) will return the authentication result and MAY contain a Vector of Trust (VOT) result characterizing the context of the authentication session.
 ### 2.1.4 Privacy Considerations
 The Identity Provider and associated mobile SDK are responsible for security of the user’s privately identifiable information (PII).  No PII is shared to the Relying Party - only the authentication result (true or false) and MAY contain a Vector of Trust (VOT).  Any additional information is outside the scope of this profile such as attribute values (i.e., name, address, DoB, etc.) obtained via other IDP APIs.
@@ -148,7 +148,7 @@ To do this, an RP must know the types of authentication methods available and th
 
 Lastly, once an authentication has occurred, the IdP returns the result to the RP along with a vector of trust (VoT) component-value string declaring the specific methods and policies used.
 
-The IEEE P1940 example ATM transaction involves a number of actors to handle aspects of the transaction. This architecture diagram shows the actors in an ATM network including a mobile app communicating with service provider servers to carry out a transaction. 
+The IEEE P1940 example ATM transaction involves a number of actors to handle aspects of the transaction. The architecture diagrams in this section shows the actors in an ATM network including a mobile app communicating with service provider servers to carry out a transaction. 
 
 ![Image of ATM network](http://raw.github.com/p1940/p1940/master/VoTArchitecture.png?cache=no)
 
@@ -291,7 +291,19 @@ Copyright (c) 2019 IEEE.
 | AAL | Authenticator Assurance Level|
 | FAL | Federation Assurance Level |
 
-# Authors
-John Callahan <john.callahan@ieee.org>
-
-
+# Committee
+John Callahan - Chair
+Bruce Wayne Renard - Vice Chair
+Andrea Houtkin - Secretary
+Rohit Goswami
+Siddanth Dwivedi
+Alex Ilie
+Richa Siddavaatam
+Scott Green
+Ron Roberto
+Randy Rannow
+Arsenia Chorti
+Donna Embry
+Marco Hernandez
+Victor Cooke
+Vince Endres

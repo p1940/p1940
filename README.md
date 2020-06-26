@@ -25,6 +25,7 @@ geometry:
 ---
 
 # 1. Introduction
+This section is *normative*.
 
 This document is a collection of profiles that define integration of
 authentication services with ISO 8583 used for financial transactions (e.g.,
@@ -37,7 +38,6 @@ includes primary authentication, second-factor authentication (2FA), step-up
 authentication (SUA), and multi-factor authentication (MFA).
 
 ## 1.1 Requirements Notation and Conventions
-
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this
 document are to be interpreted as described in IETF RFC 2119.
@@ -45,7 +45,7 @@ document are to be interpreted as described in IETF RFC 2119.
 ## 1.2 Terminology
 This specification uses the terms "Automated Teller Machine", "Authentication Service", "Cryptogram", "Vector of Trust (Vot)", "Two-Factor Authentication" (2FA), "Multi-Factor Authentication" (MFA), "Identity Assurance", "Identity Verification", "Identity Proofing", "Client", "Payment Processor", "Primary Authentication", "Presentation Attack Detection" (PAD), "", "", "", and "" defined by IEEE Std. 2410, the terms "Claim Name", "Claim Value", and "JSON Web Token (JWT)" defined by JSON Web Token (JWT) , and the terms defined by OpenID Connect Core 1.0.  This document reuses terminology from VoT [[RFC8485](https://tools.ietf.org/html/rfc8485)] and NIST Special Publication 800-63 [[SP-800-63-3](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-63-3.pdf)].
 
-## 1.3. Conformance
+## 1.3. Scope
 The following profiles are specified in this document:
 
 IEEE Std. 2410 (Biometric authentication)
@@ -53,6 +53,8 @@ IEEE Std. 2410 (Biometric authentication)
 Additional profiles may be added in future revisions of this document.
 
 # 2. Profiles
+This section is *normative*.
+
 A profile defines specific API calls and associated parameters in context with the IEEE P1940 trust framework defined in Section X of this document.  Please refer to the transaction diagram in Section 4 for appropriate mappings of service requests and responses.
 
 ## 2.1 IEEE Std. 2410 Profile
@@ -75,6 +77,8 @@ All transactions MUST be protected in transit by TLS as described in BCP195.  Au
 IEEE Std. 2410 determines the user and device enrollment process which mitigates man-in-the-middle (MiTM) attacks that may be used to intercept calls from the mobile device to the relying party and the mobile device to the identity provider.  Although protected by TLS, we still recommend the association of IDP and RP within a trusted network and the IDP-RP connections MUST use client certificates (called friend certificates) as required by IEEE Std. 2410.
 
 # 3. Trust Framework
+This section is *normative*.
+
 IEEE P1940, in part, defines a trust framework based on Vectors of Trust (VoT) [[RFC8485](https://tools.ietf.org/html/rfc8485)]. VoT prescribes an efficient method for expressing measurements of trust for use in digital identity transactions.  Historically trust measurements have fallen into two main categories: either all measurements are combined into a single scalar value or trust decisions are calculated locally based on a detailed set of attribute metadata.  VoT defines a method of conveying trust information that is more expressive than a single value but less complex than comprehensive attribute metadata.
 
 ## 3.1 Vectors of Trust
@@ -107,39 +111,40 @@ P1940 defines a trust framework for specifying cardless identity assurance in IS
 * The primary credential management (M) component is **outside the scope of IEEE P1940** as P1940 transactions do not involve credential management operations.
 * The assertion presentation (A) component is **outside the scope of IEEE P1940 as P1940** transactions do not involve federated (cross-domain) authentication assertions.
 
-See Appendix X for the complete specification of the P1940 trust framework.
-
-For now it’s here:
+Specification of the P1940 trust framework:
 
 **P Identity proofing:** Not Applicable
  
-**C Primary credential usage**
-**Defaults (from VoT RFC 8485)**
-* C0 No credential is used / anonymous public service
-* Ca Simple session HTTP cookies (with nothing else)
-* Cb Known device, such as those indicated through device posture or device management systems
-* Cc Shared secret, such as a username and password combination
-* Cd Cryptographic proof of key possession using shared key
-* Ce Cryptographic proof of key possession using asymmetric key
-* Cf Sealed hardware token / keys stored in a trusted platform module
+**C Primary credential usage** (includes defaults from VoT RFC 8485)
+
+* **C0** No credential is used / anonymous public service
+* **Ca** Simple session HTTP cookies (with nothing else)
+* **Cb** Known device, such as those indicated through device posture or device management systems
+* **Cc** Shared secret, such as a username and password combination
+* **Cd** Cryptographic proof of key possession using shared key
+* **Ce** Cryptographic proof of key possession using asymmetric key
+* **Cf** Sealed hardware token / keys stored in a trusted platform module
 
 **Extensions:**
-* Cg Locally verified biometric
-* Ch Verified Split Biometric 
-* Ci Authentication Freshness Not sure this can be represented practically.
-* Cx FIDO authentication
-* Cj Pad detection used
-* Ck UBA used
-* Cl Geolocation used
-* Cm SUA used  (not sure if these last three make sense)
-* Cn 2FA used
-* Co  MFA used 
+
+* **Cg** Locally verified biometric
+* **Ch** Verified Split Biometric 
+* **Ci** Authentication Freshness Not sure this can be represented practically.
+* **Cx** FIDO authentication
+* **Cj** Pad detection used
+* **Ck** UBA used
+* **Cl** Geolocation used
+* **Cm** SUA used  (not sure if these last three make sense)
+* **Cn** 2FA used
+* **Co**  MFA used 
 
 **M Primary credential management:** Not Applicable.
 
 **A Assertion presentation:** Not Applicable.
 
-# 4 IEEE P1940 Example
+# 4. IEEE P1940 Example
+This section is *non-normative*.
+
 P1940 architectures involve mobile client apps communicating with backend financial servers to initiate and carry out ATM and POS transactions, using mobile app ‘authenticators’ to prove a user identity with an agreed-upon level of assurance suited to the transaction risk level. 
 
 End users gain access to the features through a service provider.  The service provider may be a financial institution or a non-bank entity providing similar services.  The service provider is called an RP (relying party).  The service provider will allow users to conduct transactions using a mobile application.   The service provider has a mobile application that interacts with a mobile application server.  The mobile application server evaluates the risk in a proposed transaction and generates an appropriate vector of trust request (VtR) which is consumed by an IdP to issue an authentication request with the appropriate assurance level.  For example, a low-risk transaction of US $10 could require just a fingerprint like Apple's proprietary TouchID on an iPhone device.  A higher-risk transaction (say US $200.00) could require Touch ID with presentation attack detection and geolocation of the user.
@@ -182,7 +187,9 @@ Figure 4 shows carrying out the cash disbursement using standard ATM methods. Th
 
 ![Cash Disbursement Phase (out of scope of IEEE P1940)](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/p1940/p1940/master/p1940CashDisburse.plantuml?cache=no) 
 
-# 5 Determining Risk
+# 5. Determining Risk
+This section is *non-normative*.
+
 The relying party (RP) MUST determine the risk involved in transactions carried out using IEEE P1940 and prescribe authentication methods commensurate with the risk level.
 
 Mobile banking apps typically have standard capabilities for which they know, by experience, the risk of financial loss or impact is low. Accordingly, mobile access to these capabilities requires a minimum level of authentication. These standard capabilities include:
@@ -266,13 +273,11 @@ When you have an AAL for a transaction type and value, apply the following rules
 * For AAL2 (two-factor), use at least **twov** authentication methods (and optionally, one or more additional security measures) as appropriate for the resource being protected.
 * For AAL3 (multi-factor), use at least **two** authentication methods (and optionally, one or more additional security measures) as appropriate for the resource being protected.
 
-# 6. Normative References
-
 # Appendix A. Acknowledgements
-The IEEE Community would like to thank the following people for their contributions to this specification: John Callahan, Vince Endres, Bruce, Alan Theimann.
+The IEEE Community would like to thank the following people for their contributions to this specification: John Callahan, Vince Endres, Bruce Reynard, Alan Theimann, Ward Rosenberry.
 
 # Appendix B. Notices
-Copyright (c) 2019 IEEE.
+Copyright (c) 2020 IEEE.
 
 # Appendix C. Document History
 2019-12-31
@@ -292,18 +297,19 @@ Copyright (c) 2019 IEEE.
 | FAL | Federation Assurance Level |
 
 # Committee
-John Callahan - Chair
-Bruce Wayne Renard - Vice Chair
-Andrea Houtkin - Secretary
-Rohit Goswami
-Siddanth Dwivedi
-Alex Ilie
-Richa Siddavaatam
-Scott Green
-Ron Roberto
-Randy Rannow
-Arsenia Chorti
-Donna Embry
-Marco Hernandez
-Victor Cooke
-Vince Endres
+John Callahan - Chair,
+Bruce Wayne Renard - Vice Chair,
+Andrea Houtkin - Secretary,
+Rohit Goswami,
+Siddanth Dwivedi,
+Alex Ilie,
+Richa Siddavaatam,
+Scott Green,
+Ward Rosenberry,
+Ron Roberto,
+Randy Rannow,
+Arsenia Chorti,
+Donna Embry,
+Marco Hernandez,
+Victor Cooke,
+Vince Endres.

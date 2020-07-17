@@ -27,23 +27,13 @@ geometry:
 # 1. Introduction
 This section is *normative*.
 
-This document is a collection of profiles that define integration of
-authentication services with ISO 8583 used for financial transactions (e.g.,
-point-of-sale (POS), automated teller machine (ATM) cash withdrawal
-transactions, etc.). Such services include biometric authentication (as defined
-by IEEE Std. 2410), PIN-based, Fast Identity Online (FIDO), and One-Time
-Password (OTP) and Time-based OTP (TOTP) authentication methods including risk
-and presentation attack defense (PAD) measures. The scope of authentication
-includes primary authentication, second-factor authentication (2FA), step-up
-authentication (SUA), and multi-factor authentication (MFA).
+This document is a collection of profiles that define integration of authentication services with ISO 8583 used for financial transactions (e.g., point-of-sale (POS), automated teller machine (ATM) cash withdrawal transactions, etc.). Such services include biometric authentication (as defined by IEEE Std. 2410), PIN-based, Fast Identity Online (FIDO), and One-Time Password (OTP) and Time-based OTP (TOTP) authentication methods including risk and presentation attack defense (PAD) measures. The scope of authentication includes primary authentication, second-factor authentication (2FA), step-up authentication (SUA), and multi-factor authentication (MFA).
 
 ## 1.1 Requirements Notation and Conventions
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
-"SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this
-document are to be interpreted as described in IETF RFC 2119.
+The key words "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in IETF RFC 2119.
 
 ## 1.2 Terminology
-This specification uses the terms "Automated Teller Machine", "Authentication Service", "Cryptogram", "Vector of Trust (Vot)", "Two-Factor Authentication" (2FA), "Multi-Factor Authentication" (MFA), "Identity Assurance", "Identity Verification", "Identity Proofing", "Client", "Payment Processor", "Primary Authentication", "Presentation Attack Detection" (PAD), "", "", "", and "" defined by IEEE Std. 2410, the terms "Claim Name", "Claim Value", and "JSON Web Token (JWT)" defined by JSON Web Token (JWT) , and the terms defined by OpenID Connect Core 1.0.  This document reuses terminology from VoT [[RFC8485](https://tools.ietf.org/html/rfc8485)] and NIST Special Publication 800-63 [[SP-800-63-3](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-63-3.pdf)].
+This specification uses the terms "Automated Teller Machine", "Authentication Service", "Cryptogram", "Vector of Trust (Vot)", "Two-Factor Authentication" (2FA), "Multi-Factor Authentication" (MFA), "Identity Assurance", "Identity Verification", "Identity Proofing", "Client", "Payment Processor", "Primary Authentication", and "Presentation Attack Detection" (PAD) defined by IEEE Std. 2410, the terms "Claim Name", "Claim Value", and "JSON Web Token (JWT)" defined by JSON Web Token (JWT) , and the terms defined by OpenID Connect Core 1.0.  This document reuses terminology from VoT [[RFC8485](https://tools.ietf.org/html/rfc8485)] and NIST Special Publication 800-63 [[SP-800-63-3](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-63-3.pdf)].
 
 ## 1.3. Scope
 The following profiles are specified in this document:
@@ -55,26 +45,26 @@ Additional profiles may be added in future revisions of this document.
 # 2. Profiles
 This section is *normative*.
 
-A profile defines specific API calls and associated parameters in context with the IEEE P1940 trust framework defined in Section X of this document.  Please refer to the transaction diagram in Section 4 for appropriate mappings of service requests and responses.
+A profile defines specific API calls and associated parameters in context with the IEEE P1940 trust framework.  Please refer to the transaction diagram in Section 4 for appropriate mappings of service requests and responses.
 
 ## 2.1 IEEE Std. 2410 Profile
-The IEEE Std. 2410 profile maps specific API calls to IEEE P1940 transactions.  It specifies requirements for requests to an IEEE Std. 2410 Identity Provider service using biometric authentication.
+The IEEE Std. 2410 profile maps specific API calls to IEEE P1940 transactions and defines the information for requests to an IEEE Std. 2410 Identity Provider service using biometric authentication.
 
 ### 2.1.1 AuthenticationStart/AuthenticationRequest
 An AuthenticationStart typically originates with a relying party (RP) as a request that sends the user-id and device-id parameters and returns session-id for an enrolled account on a specific device.  The request is asynchronous resulting in a session opportunity being created.  Creation of a session opportunity causes a subsequent out-of-band push notification to be sent to the enrolled device for that user. OPTIONALLY, a polling sequence from the mobile device may be used instead of a push notification.  OPTIONALLY, the request MAY contain a Vector of Trust Request (VTR).  
 ### 2.1.2 AuthenticationResponse
-An AuthenticationResponse call contains the results of the mobile device execution of specified authentication mode(s) the device requested by an out-of-band push notification.  The AuthenticationResponse SHOULD NOT contain the literal Vector of Trust (VOT) results, but IEEE Std. 2410 specifics of the authentication results including biometric modalities.
+An AuthenticationResponse call contains the results of the mobile device execution of specified authentication mode(s) the device requested by an out-of-band push notification.  The AuthenticationResponse does not contain the literal Vector of Trust (VOT) results and IEEE Std. 2410 contains the authentication results including biometric modalities.
 
 ### 2.1.3 GetSessionStatus
 The Identity Provider can be polled or notified by the Relying Party regarding an active session created by an AuthenticationStart (see 2.1.1).  If the session is authenticated, a call to GetSessionStatus within its active period (i.e., not expired) will return the authentication result and MAY contain a Vector of Trust (VOT) result characterizing the context of the authentication session.
 ### 2.1.4 Privacy Considerations
-The Identity Provider and associated mobile SDK are responsible for security of the user’s privately identifiable information (PII).  No PII is shared to the Relying Party - only the authentication result (true or false) and MAY contain a Vector of Trust (VOT).  Any additional information is outside the scope of this profile such as attribute values (i.e., name, address, DoB, etc.) obtained via other IDP APIs.
+The Identity Provider and associated mobile SDK are responsible for security of the user’s personally identifiable information (PII) or personal health information (PHI) as defined in NIST 800-122.  No PII is shared to the Relying Party - only the authentication result (true or false) and MAY contain a Vector of Trust (VOT).  Any additional information is outside the scope of this profile such as attribute values (i.e., name, address, DoB, etc.) obtained via other IDP APIs.
 
 ### 2.1.5 Security Considerations
-All transactions MUST be protected in transit by TLS as described in BCP195.  Authentication Servers SHOULD take into account device postures when dealing with native apps if possible. Device postures include characteristics such as a user's lock screen setting, or if the app has 'root access' (meaning the device OS may be compromised to gain additional privileges not intended by the vendor), or if there is a device attestation for the app for its validity. Specific policies or capabilities are outside the scope of this specification.  All clients MUST conform to applicable recommendations found in the Security Considerations sections of [[RFC6749](https://tools.ietf.org/html/rfc6749)].
+All transactions SHALL be protected in transit by TLS as described in BCP195.  Authentication Servers may take into account device postures when dealing with native apps if possible. Device postures include characteristics such as a user's lock screen setting, or if the app has 'root access' (meaning the device OS may be compromised to gain additional privileges not intended by the vendor), or if there is a device attestation for the app for its validity. Specific policies or capabilities are outside the scope of this specification.  All clients SHALL conform to applicable recommendations found in the Security Considerations sections of [[RFC6749](https://tools.ietf.org/html/rfc6749)].
 
 ### 2.1.6 Threat Model
-IEEE Std. 2410 determines the user and device enrollment process which mitigates man-in-the-middle (MiTM) attacks that may be used to intercept calls from the mobile device to the relying party and the mobile device to the identity provider.  Although protected by TLS, we still recommend the association of IDP and RP within a trusted network and the IDP-RP connections MUST use client certificates (called friend certificates) as required by IEEE Std. 2410.
+IEEE Std. 2410 determines the user and device enrollment process which mitigates man-in-the-middle (MiTM) attacks that may be used to intercept calls from the mobile device to the relying party and the mobile device to the identity provider.  Although protected by TLS, we still recommend the association of Identity Provider (IDP) and Relying Party (RP) within a trusted network and the IDP-to-RP connections SHALL use client certificates (called friend certificates) as required by IEEE Std. 2410.
 
 # 3. Trust Framework
 This section is *normative*.
@@ -93,13 +83,13 @@ Taken together, the four VoT components (P), (C), (M), and (A) allow expression 
 
 Naturally ordered levels are typically expressed using category values of 0, 1, 2, and so on. Alternative choices are usually indicated using lettered categories, for example, a, b, and c.
 
-On the wire, vectors are represented as a period-separated ('.') list of vector components.  A vector component type can occur multiple times within a single vector, but a specific value of a vector component cannot occur more than once in a single vector.  That is, while "Cc.Cd" is a valid vector, "Cc.Cc" is not.  Multiple values for a component are considered a logical AND of the values.  Omitting a component means you are not making any claims about that component. 
+Vectors are represented as a period-separated ('.') list of vector components.  A vector component type can occur multiple times within a single vector and a specific value of a vector component appears only once in a single vector.  That is, while "Cc.Cd" is a valid vector, "Cc.Cc" is not.  Multiple values for a component are considered a logical AND of the values.  Omitting a component means you are not making any claims about that component. 
 
 See the complete set of default VoT components and categories in VoT [RFC8485] Appendix A. 
 
 ## 3.2 Trustmarks Locate Trust Frameworks
 
-A trustmark is an HTTPS URL that references a specific set of vector values as defined by a trust framework.  This URL MUST point to a human-readable document that describes what components and values are valid, how they are used together, and what practices the component values represent within the trust framework.  The contents of the trustmark URL MUST be reachable by the operators or implementors of the RP.  The URL MUST be stable over time for a given trust framework to allow RPs to process incoming vectors in a consistent fashion. For example, <https://www.rfc-editor.org/info/rfc8485> is the trustmark that references the values defined in RFC8485 Appendix A.  The trustmark for implementations of IEEE P1940 is the persistent URL of this specification: <https://standards.ieee.org/standard/p1940.html>. New versions of a trust framework that require different processing rules MUST use a different trustmark URL.  
+A trustmark is an HTTPS URL that references a specific set of vector values as defined by a trust framework.  This URL SHALL point to a human-readable document that describes what components and values are valid, how they are used together, and what practices the component values represent within the trust framework.  The contents of the trustmark URL SHALL be reachable by the operators or implementors of the RP.  The URL SHALL be stable over time for a given trust framework to allow RPs to process incoming vectors in a consistent fashion. For example, <https://www.rfc-editor.org/info/rfc8485> is the trustmark that references the values defined in RFC8485 Appendix A.  The trustmark for implementations of IEEE P1940 is the persistent URL of this specification: <https://standards.ieee.org/standard/p1940.html>. New versions of a trust framework that require different processing rules SHALL use a different trustmark URL.  
 
 ## 3.3 P1940 Trust Framework
 The VoT [RFC8485] components and categories are for general purpose use across a range of digital identity systems, to use as needed and as appropriate for the system(s) involved. The components and categories in RFC8485 are referred to as a “trust framework”.  For systems where using the default VoT [RFC8485] components and categories does not meet the needs of the systems involved, you can delete, modify, or add categories to define appropriate mechanisms, which results in a new trust framework. 
@@ -147,9 +137,9 @@ This section is *non-normative*.
 
 P1940 architectures involve mobile client apps communicating with backend financial servers to initiate and carry out ATM and POS transactions, using mobile app ‘authenticators’ to prove a user identity with an agreed-upon level of assurance suited to the transaction risk level. 
 
-End users gain access to the features through a service provider.  The service provider may be a financial institution or a non-bank entity providing similar services.  The service provider is called an RP (relying party).  The service provider will allow users to conduct transactions using a mobile application.   The service provider has a mobile application that interacts with a mobile application server.  The mobile application server evaluates the risk in a proposed transaction and generates an appropriate vector of trust request (VtR) which is consumed by an IdP to issue an authentication request with the appropriate assurance level.  For example, a low-risk transaction of US $10 could require just a fingerprint like Apple's proprietary TouchID on an iPhone device.  A higher-risk transaction (say US $200.00) could require Touch ID with presentation attack detection and geolocation of the user.
+End users gain access to the features through a service provider.  The service provider may be a financial institution or a non-bank entity providing similar services.  The service provider is called an RP (relying party).  The service provider will allow users to conduct transactions using a mobile application.   The service provider has a mobile application that interacts with a mobile application server.  The mobile application server evaluates the risk in a proposed transaction and generates an appropriate vector of trust request (VtR) which is consumed by an IdP to issue an authentication request with the appropriate assurance level.  For example, a low-risk transaction of US $10 could require just a fingerprint like Apple's proprietary TouchID on an iPhone device.  A higher-risk transaction (e.g., US $200.00) could require Touch ID with presentation attack detection and geolocation of the user.
 
-To do this, an RP must know the types of authentication methods available and their relative assurance levels. IdP vendors use this specification to design processes that consume VtRs and generate appropriate authentication requests. The exact method for transforming VtRs into authentication requests is outside the scope of this specification.
+To do this, a relying party (RP) shall know the types of authentication methods available and their relative assurance levels. IdP vendors use this specification to design processes that consume VtRs and generate appropriate authentication requests. The exact method for transforming VtRs into authentication requests is outside the scope of this specification.
 
 Lastly, once an authentication has occurred, the IdP returns the result to the RP along with a vector of trust (VoT) component-value string declaring the specific methods and policies used.
 
@@ -190,7 +180,7 @@ Figure 4 shows carrying out the cash disbursement using standard ATM methods. Th
 # 5. Determining Risk
 This section is *non-normative*.
 
-The relying party (RP) MUST determine the risk involved in transactions carried out using IEEE P1940 and prescribe authentication methods commensurate with the risk level.
+The relying party (RP) SHALL determine the risk involved in transactions carried out using IEEE P1940 and prescribe authentication methods commensurate with the risk level.
 
 Mobile banking apps typically have standard capabilities for which they know, by experience, the risk of financial loss or impact is low. Accordingly, mobile access to these capabilities requires a minimum level of authentication. These standard capabilities include:
 
@@ -280,8 +270,8 @@ The IEEE Community would like to thank the following people for their contributi
 Copyright (c) 2020 IEEE.
 
 # Appendix C. Document History
-2019-12-31
-* Initial draft completed.
+* 2019-12-31 Initial draft completed.
+* 2020-07-17 Final draft ready for submission to balloting.
 
 # Appendix D. Nomenclature
 | abbreviation      | Description |
@@ -295,6 +285,15 @@ Copyright (c) 2020 IEEE.
 | IAL | Identity Assurance Level |
 | AAL | Authenticator Assurance Level|
 | FAL | Federation Assurance Level |
+
+# Appendix E. Normative References
+
+* IETF RFC 2119
+* IEEE 2410-2017
+* IETF RFC 6749
+* IETF RFC 8485
+* NIST 800-63-3
+* NIST 800-122
 
 # Committee
 John Callahan - Chair,

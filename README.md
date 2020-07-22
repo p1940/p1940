@@ -264,7 +264,7 @@ When you have an AAL for a transaction type and value, apply the following rules
 * For AAL3 (multi-factor), use at least **two** authentication methods (and optionally, one or more additional security measures) as appropriate for the resource being protected.
 
 # Appendix A. Acknowledgements
-The IEEE Community would like to thank the following people for their contributions to this specification: John Callahan, Vince Endres, Bruce Reynard, Alan Theimann, Ward Rosenberry.
+The IEEE Community would like to thank the following people for their contributions to this specification: John Callahan, Vince Endres, Bruce Renard, Alan Theimann, Ward Rosenberry.
 
 # Appendix B. Notices
 Copyright (c) 2020 IEEE.
@@ -295,20 +295,17 @@ Copyright (c) 2020 IEEE.
 * NIST 800-63-3
 * NIST 800-122
 
-# Committee
+# Committee (Voting 1.0.0)
 John Callahan - Chair,
 Bruce Wayne Renard - Vice Chair,
 Andrea Houtkin - Secretary,
 Rohit Goswami,
-Siddanth Dwivedi,
-Alex Ilie,
+Neetesh Saxena,
+Muhammad Khurram Khan,
 Richa Siddavaatam,
 Scott Green,
-Ward Rosenberry,
 Ron Roberto,
 Randy Rannow,
 Arsenia Chorti,
-Donna Embry,
 Marco Hernandez,
-Victor Cooke,
 Vince Endres.
